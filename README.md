@@ -385,4 +385,4 @@ MIT — see [LICENSE](LICENSE) for the full text.
 ## Contact
 
 Manish Kumar
-[GitHub](https://github.com/Manish-Kumar24) · [LinkedIn](https://www.linkedin.com/in/manish-kumar-2aug2004/) · [manishkumar202209@gmail.com](mailto:manishkumar202209@gmail.com)
+[GitHub](https://github.com/Manish-Kumar24) · [LinkedIn](https://www.linkedin.com/in/manish-kumar-2aug2004/) · [Email](mailto:manishkumar202209@gmail.com)
