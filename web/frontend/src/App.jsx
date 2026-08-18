@@ -1,6 +1,9 @@
 import { useState, useRef } from 'react'
 
-const API_BASE = 'http://localhost:8000'
+// In production, set VITE_API_BASE (in Vercel's project settings, or a
+// local .env file) to the deployed backend's URL, e.g.
+// https://clarifysql-api.onrender.com. Falls back to localhost for local dev.
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000'
 
 // Simple state machine: idle -> loading -> (clarifying | done | error)
 export default function App() {

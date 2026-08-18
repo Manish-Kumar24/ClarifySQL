@@ -29,11 +29,16 @@ from dataset_loader import load_files_to_sqlite, SESSIONS, cleanup_session
 
 app = FastAPI(title="ClarifySQL")
 
-# Local dev only -- Vite's default port. Wide open on purpose since this
-# is a portfolio demo, not a service handling real user data.
+# ALLOWED_ORIGINS env var: comma-separated list of allowed frontend origins.
+# Defaults to "*" for local dev convenience. In production, set this to
+# your actual deployed frontend URL(s), e.g.
+# ALLOWED_ORIGINS=https://clarifysql.vercel.app
+_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
+ALLOWED_ORIGINS = ["*"] if _origins_env == "*" else [o.strip() for o in _origins_env.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

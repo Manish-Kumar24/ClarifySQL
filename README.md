@@ -295,6 +295,62 @@ The backend does not persist question history — every request is
 stateless, matching the eval harness's design (the frontend just holds the
 original question and the active session_id in React state between calls).
 
+## Deployment
+
+Deployed as two separate pieces: **backend on Render** (free tier, keeps a
+Python process alive), **frontend on Vercel** (free, static React build).
+Ollama doesn't work in this setup — it needs a local process on your own
+machine — so the deployed backend is forced onto Groq via
+`T2SQL_PROVIDER=groq`.
+
+### Backend (Render)
+
+1. Push this repo to GitHub (already done if you're reading this on GitHub).
+2. In Render, **New > Blueprint**, connect this repo. It reads
+   [`render.yaml`](render.yaml) automatically and configures the build/start
+   commands for you.
+3. Render will prompt for the two secrets marked `sync: false` in
+   `render.yaml`:
+   - `GROQ_API_KEY` — your Groq key
+   - `ALLOWED_ORIGINS` — leave blank for now, come back and set this after
+     step 2 of the frontend deploy below (needs the Vercel URL first)
+4. Deploy. You'll get a URL like `https://clarifysql-api.onrender.com`.
+   Confirm it's alive: `https://clarifysql-api.onrender.com/api/health`
+   should return `{"ok": true, "provider": "groq"}`.
+
+**Free-tier note:** Render's free web services spin down after 15 minutes
+of no traffic and take ~30-60 seconds to wake back up on the next request.
+The first request after idle time will be slow — this is Render's
+limitation, not a bug in this project.
+
+### Frontend (Vercel)
+
+1. In Vercel, **New Project**, import this repo, set **Root Directory** to
+   `web/frontend` (Vercel auto-detects the Vite framework from there via
+   `vercel.json`).
+2. Add an environment variable: `VITE_API_BASE` = your Render URL from
+   above (e.g. `https://clarifysql-api.onrender.com`).
+3. Deploy. You'll get a URL like `https://clarifysql.vercel.app`.
+4. Go back to Render and set `ALLOWED_ORIGINS` to that Vercel URL, so the
+   backend only accepts requests from your actual deployed frontend rather
+   than any origin. Redeploy the backend for it to take effect.
+
+### Verifying it worked
+
+Open your Vercel URL, ask an unambiguous question first (confirms the
+backend connection and Groq key both work), then an ambiguous one
+(confirms the full clarification round-trip). If the first request hangs
+for 30-60 seconds, that's Render's free-tier cold start, not an error --
+wait it out once, subsequent requests are fast.
+
+### A known limitation of this deployment
+
+Uploaded datasets (`/api/upload`) are held in memory on the backend, and
+Render's free tier can restart your service on redeploys or extended idle
+periods, which clears them — same limitation as running locally, just more
+likely to happen since Render manages the process lifecycle for you. Not a
+bug, just worth knowing if a demo dataset disappears and needs re-uploading.
+
 ## Safety note
 
 `sql_executor.py` only allows read-only `SELECT`/`WITH` statements and
