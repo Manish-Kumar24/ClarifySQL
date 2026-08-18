@@ -11,6 +11,14 @@ very fast) and falls back automatically to **Ollama** (fully local/offline)
 or **Anthropic** (paid) depending on what's configured. See "Provider setup"
 below for the priority order and how to force a specific one.
 
+## Live Demo
+
+🔗 **[clarifysql.vercel.app](https://clarifysql.vercel.app)**
+
+Hosted on Render's free tier — the backend spins down after 15 minutes of
+inactivity, so the first request after idle time may take 30–60 seconds to
+wake up. Subsequent requests are fast.
+
 ![ClarifySQL web UI](docs/screenshot.png)
 
 ## Why a clarification engine?
@@ -369,3 +377,12 @@ database without a guard like this, even for a demo project.
   standard, citable accuracy number.
 - Add multi-turn clarification (more than one round) for genuinely
   underspecified questions.
+
+## License
+
+MIT — see [LICENSE](LICENSE) for the full text.
+
+## Contact
+
+Manish Kumar
+[GitHub](https://github.com/Manish-Kumar24) · [LinkedIn](https://www.linkedin.com/in/manish-kumar-2aug2004/) · [manishkumar202209@gmail.com](mailto:manishkumar202209@gmail.com)
