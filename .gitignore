@@ -1,0 +1,35 @@
+# --- Secrets ---
+.env
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# --- Project-generated files (reproducible, don't need to be committed) ---
+db/sample.db
+eval/results.json
+
+# --- Frontend (Node/Vite) ---
+web/frontend/node_modules/
+web/frontend/dist/
+web/frontend/.vite/
+npm-debug.log*
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE / editors ---
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,5 @@
+# Core deps -- stdlib sqlite3/urllib handle Ollama, so nothing extra needed
+# for the default (free, local) setup.
+
+# Only needed if you switch PROVIDER to "anthropic":
+anthropic>=0.40.0
