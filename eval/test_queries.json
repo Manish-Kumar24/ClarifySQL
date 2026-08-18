@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "question": "List the names of all products priced above 2000.",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT name FROM products WHERE price > 2000"
+  },
+  {
+    "id": 2,
+    "question": "How many customers signed up from Mumbai?",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT COUNT(*) FROM customers WHERE city = 'Mumbai'"
+  },
+  {
+    "id": 3,
+    "question": "What is the price of the product called 'Yoga Mat'?",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT price FROM products WHERE name = 'Yoga Mat'"
+  },
+  {
+    "id": 4,
+    "question": "List all products in the Electronics category sorted by price descending.",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT name FROM products WHERE category = 'Electronics' ORDER BY price DESC"
+  },
+  {
+    "id": 5,
+    "question": "How many orders are currently in 'shipped' status?",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT COUNT(*) FROM orders WHERE status = 'shipped'"
+  },
+  {
+    "id": 6,
+    "question": "List the payment methods used and how many times each was used.",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT method, COUNT(*) FROM payments GROUP BY method"
+  },
+  {
+    "id": 7,
+    "question": "What is the average rating for the product 'Running Shoes'?",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT AVG(r.rating) FROM reviews r JOIN products p ON r.product_id = p.product_id WHERE p.name = 'Running Shoes'"
+  },
+  {
+    "id": 8,
+    "question": "How many products are there in each category?",
+    "is_ambiguous": false,
+    "clarification_answer": null,
+    "expected_sql": "SELECT category, COUNT(*) FROM products GROUP BY category"
+  },
+  {
+    "id": 9,
+    "question": "What's the total amount for order 10?",
+    "is_ambiguous": true,
+    "clarification_answer": "I mean the order total recorded in the orders table, not the payment amount.",
+    "expected_sql": "SELECT amount FROM orders WHERE order_id = 10"
+  },
+  {
+    "id": 10,
+    "question": "Show me the top products.",
+    "is_ambiguous": true,
+    "clarification_answer": "Top 5 products by total quantity sold across all orders.",
+    "expected_sql": "SELECT p.name, SUM(oi.quantity) AS total_qty FROM order_items oi JOIN products p ON oi.product_id = p.product_id GROUP BY p.name ORDER BY total_qty DESC LIMIT 5"
+  },
+  {
+    "id": 11,
+    "question": "List customers with a high number of orders.",
+    "is_ambiguous": true,
+    "clarification_answer": "Customers with more than 3 orders.",
+    "expected_sql": "SELECT c.name FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id HAVING COUNT(o.order_id) > 3"
+  },
+  {
+    "id": 12,
+    "question": "Which products have good reviews?",
+    "is_ambiguous": true,
+    "clarification_answer": "Products with an average rating of 3 or higher.",
+    "expected_sql": "SELECT p.name FROM reviews r JOIN products p ON r.product_id = p.product_id GROUP BY p.name HAVING AVG(r.rating) >= 3"
+  },
+  {
+    "id": 13,
+    "question": "Show me recent orders.",
+    "is_ambiguous": true,
+    "clarification_answer": "Orders placed in the last 30 days from today.",
+    "expected_sql": "SELECT * FROM orders WHERE order_date >= date('now', '-30 day')"
+  },
+  {
+    "id": 14,
+    "question": "List the date for order 15.",
+    "is_ambiguous": true,
+    "clarification_answer": "I mean the order date, from the orders table, not the payment date.",
+    "expected_sql": "SELECT order_date FROM orders WHERE order_id = 15"
+  },
+  {
+    "id": 15,
+    "question": "What is the status of order 20?",
+    "is_ambiguous": true,
+    "clarification_answer": "The order status from the orders table, not the payment status.",
+    "expected_sql": "SELECT status FROM orders WHERE order_id = 20"
+  },
+  {
+    "id": 16,
+    "question": "Show me the amount for orders placed by customers in Bangalore.",
+    "is_ambiguous": true,
+    "clarification_answer": "The order total from the orders table (not the amount actually paid), listed per order -- not summed into one total.",
+    "expected_sql": "SELECT o.amount FROM orders o JOIN customers c ON o.customer_id = c.customer_id WHERE c.city = 'Bangalore'"
+  }
+]
