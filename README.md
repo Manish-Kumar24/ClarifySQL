@@ -11,6 +11,8 @@ very fast) and falls back automatically to **Ollama** (fully local/offline)
 or **Anthropic** (paid) depending on what's configured. See "Provider setup"
 below for the priority order and how to force a specific one.
 
+![ClarifySQL web UI](docs/screenshot.png)
+
 ## Why a clarification engine?
 
 Most text-to-SQL demos are one-shot: NL in, SQL out, hope for the best. Real
